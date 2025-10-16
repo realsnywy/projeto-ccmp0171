@@ -1,6 +1,6 @@
 package br.com.acolher.api.entities;
 
-import br.com.acolher.api.enums.TipoUsuario;
+import br.com.acolher.api.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,41 +10,41 @@ import lombok.Setter;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
-   name = "tipo_usuario",
+   name = "user_type",
    discriminatorType = DiscriminatorType.STRING
 )
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usuarios")
-public abstract class Usuario {
+@Table(name = "users")
+public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String name;
 
     private String email;
 
-    private String senha;
+    private String password;
 
     private String CPF;
 
     private String RG;
 
-    private String telefone;
+    private String telephone;
 
-    public TipoUsuario getTipoUsuario() {
-        if(this instanceof DiretorGeral) {
-            return TipoUsuario.DIRETOR_GERAL;
+    public UserType getUserType() {
+        if(this instanceof GeneralDirector) {
+            return UserType.GENERAL_DIRECTOR;
         }
-        if(this instanceof Recepcionista) {
-            return TipoUsuario.RECEPCIONISTA;
+        if(this instanceof Recepcionist) {
+            return UserType.RECEPCIONIST;
         }
-        if(this instanceof Profissional) {
-            return TipoUsuario.PROFISSIONAL;
+        if(this instanceof Professional) {
+            return UserType.PROFESSIONAL;
         }
         throw new IllegalStateException("Tipo de usuário desconhecido");
     }

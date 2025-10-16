@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@DiscriminatorValue(value = "PROFISSIONAL")
+@DiscriminatorValue(value = "PROFESSIONAL")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Profissional extends Usuario {
-    private String especialidade;
-    private String registroProfissional;
+public class Professional extends User {
+    private String speciality;
+    private String professionalRegister;
 }

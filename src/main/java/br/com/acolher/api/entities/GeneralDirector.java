@@ -2,14 +2,12 @@ package br.com.acolher.api.entities;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@DiscriminatorValue(value = "DIRETOR_GERAL")
+@DiscriminatorValue(value = "GENERAL_DIRECTOR")
 @Getter
 @Setter
-public class DiretorGeral extends Usuario {
+public class GeneralDirector extends User {
 }

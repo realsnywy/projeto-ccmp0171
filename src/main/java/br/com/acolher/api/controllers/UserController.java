@@ -1,26 +1,24 @@
 package br.com.acolher.api.controllers;
 
-import br.com.acolher.api.dtos.UsuarioCreateDTO;
-import br.com.acolher.api.dtos.UsuarioResponseDTO;
-import br.com.acolher.api.dtos.UsuarioUpdateDTO;
-import br.com.acolher.api.services.UsuarioService;
+import br.com.acolher.api.dtos.UserCreateDTO;
+import br.com.acolher.api.dtos.UserResponseDTO;
+import br.com.acolher.api.dtos.UserUpdateDTO;
+import br.com.acolher.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/usuarios")
-public class UsuarioController {
+@RequestMapping("/api/users")
+public class UserController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UserService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> create(@RequestBody UsuarioCreateDTO usuarioCreateDTO) {
-        return new ResponseEntity<>(usuarioService.create(usuarioCreateDTO), HttpStatus.CREATED);
+    public ResponseEntity<UserResponseDTO> create(@RequestBody UserCreateDTO userCreateDTO) {
+        return new ResponseEntity<>(usuarioService.create(userCreateDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -44,9 +42,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody UsuarioUpdateDTO usuarioUpdateDTO) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
         try {
-            return new ResponseEntity<>(usuarioService.update(id, usuarioUpdateDTO), HttpStatus.OK);
+            return new ResponseEntity<>(usuarioService.update(id, userUpdateDTO), HttpStatus.OK);
         }catch (RuntimeException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
