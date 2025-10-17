@@ -30,9 +30,9 @@ public abstract class User {
 
     private String password;
 
-    private String CPF;
+    private String cpf;
 
-    private String RG;
+    private String rg;
 
     private String telephone;
 

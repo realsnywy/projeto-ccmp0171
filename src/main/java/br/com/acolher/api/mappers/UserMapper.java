@@ -17,8 +17,8 @@ public class UserMapper {
                 generalDirector.setName(userDTO.name());
                 generalDirector.setEmail(userDTO.email());
                 generalDirector.setPassword(userDTO.password());
-                generalDirector.setCPF(userDTO.CPF());
-                generalDirector.setRG(userDTO.RG());
+                generalDirector.setCpf(userDTO.cpf());
+                generalDirector.setRg(userDTO.rg());
                 generalDirector.setTelephone(userDTO.telephone());
                 user = generalDirector;
             }
@@ -27,8 +27,8 @@ public class UserMapper {
                 recepcionist.setName(userDTO.name());
                 recepcionist.setEmail(userDTO.email());
                 recepcionist.setPassword(userDTO.password());
-                recepcionist.setCPF(userDTO.CPF());
-                recepcionist.setRG(userDTO.RG());
+                recepcionist.setCpf(userDTO.cpf());
+                recepcionist.setRg(userDTO.rg());
                 recepcionist.setTelephone(userDTO.telephone());
                 user = recepcionist;
             }
@@ -37,8 +37,8 @@ public class UserMapper {
                 professional.setName(userDTO.name());
                 professional.setEmail(userDTO.email());
                 professional.setPassword(userDTO.password());
-                professional.setCPF(userDTO.CPF());
-                professional.setRG(userDTO.RG());
+                professional.setCpf(userDTO.cpf());
+                professional.setRg(userDTO.rg());
                 professional.setTelephone(userDTO.telephone());
                 professional.setSpeciality(userDTO.speciality());
                 professional.setProfessionalRegister(userDTO.professionalRegister());
@@ -52,8 +52,8 @@ public class UserMapper {
     public static UserResponseDTO toDTO(User user) {
         if(user instanceof Professional) {
             Professional professional = (Professional) user;
-            return new UserResponseDTO(professional.getId(), professional.getName(), professional.getEmail(), professional.getPassword(), professional.getCPF(), professional.getRG(), professional.getTelephone(), professional.getSpeciality(), professional.getProfessionalRegister(), professional.getUserType());
+            return new UserResponseDTO(professional.getId(), professional.getName(), professional.getEmail(), professional.getPassword(), professional.getCpf(), professional.getRg(), professional.getTelephone(), professional.getSpeciality(), professional.getProfessionalRegister(), professional.getUserType());
         }else
-            return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getCPF(), user.getRG(), user.getTelephone(), null, null, user.getUserType());
+            return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getCpf(), user.getRg(), user.getTelephone(), null, null, user.getUserType());
     }
 }

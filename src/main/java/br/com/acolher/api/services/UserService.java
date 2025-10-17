@@ -36,8 +36,8 @@ public class UserService {
         user.setName(userUpdateDTO.name());
         user.setEmail(userUpdateDTO.email());
         user.setPassword(userUpdateDTO.password());
-        user.setCPF(userUpdateDTO.CPF());
-        user.setRG(userUpdateDTO.RG());
+        user.setCpf(userUpdateDTO.cpf());
+        user.setRg(userUpdateDTO.rg());
         user.setTelephone(userUpdateDTO.telephone());
 
         if (user instanceof Professional professional) {
