@@ -1,6 +1,6 @@
 package br.com.acolher.api.enums;
 
-public enum PacientStatus {
+public enum PatientStatus {
     ACTIVE,
     INACTIVE
 }

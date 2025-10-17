@@ -3,6 +3,7 @@ package br.com.acolher.api.services;
 import br.com.acolher.api.dtos.UserCreateDTO;
 import br.com.acolher.api.dtos.UserResponseDTO;
 import br.com.acolher.api.dtos.UserUpdateDTO;
+import br.com.acolher.api.entities.Professional;
 import br.com.acolher.api.entities.User;
 import br.com.acolher.api.mappers.UserMapper;
 import br.com.acolher.api.repositories.UserRepository;
@@ -30,9 +31,20 @@ public class UserService {
     public List<UserResponseDTO> readAll() {
         return usuarioRepository.findAll().stream().map(UserMapper::toDTO).toList();
     }
-    public UserResponseDTO update(Long id, UserUpdateDTO userUpdateDTO) {
-        User user = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário com id " + id + " não encontrado para atualização."));
-        user = UserMapper.updateEntity(userUpdateDTO);
+    public UserResponseDTO update(UserUpdateDTO userUpdateDTO) {
+        User user = usuarioRepository.findById(userUpdateDTO.id()).orElseThrow(() -> new RuntimeException("Usuário com id " + userUpdateDTO.id() + " não encontrado para atualização."));
+        user.setName(userUpdateDTO.name());
+        user.setEmail(userUpdateDTO.email());
+        user.setPassword(userUpdateDTO.password());
+        user.setCPF(userUpdateDTO.CPF());
+        user.setRG(userUpdateDTO.RG());
+        user.setTelephone(userUpdateDTO.telephone());
+
+        if (user instanceof Professional professional) {
+            professional.setSpeciality(userUpdateDTO.speciality());
+            professional.setProfessionalRegister(userUpdateDTO.professionalRegister());
+        }
+
         return UserMapper.toDTO(usuarioRepository.save(user));
     }
 

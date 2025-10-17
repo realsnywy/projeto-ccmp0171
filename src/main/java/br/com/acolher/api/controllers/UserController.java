@@ -41,10 +41,10 @@ public class UserController {
 
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody UserUpdateDTO userUpdateDTO) {
         try {
-            return new ResponseEntity<>(usuarioService.update(id, userUpdateDTO), HttpStatus.OK);
+            return new ResponseEntity<>(usuarioService.update(userUpdateDTO), HttpStatus.OK);
         }catch (RuntimeException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
