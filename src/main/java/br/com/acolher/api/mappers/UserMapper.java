@@ -2,44 +2,32 @@ package br.com.acolher.api.mappers;
 
 import br.com.acolher.api.dtos.UserCreateDTO;
 import br.com.acolher.api.dtos.UserResponseDTO;
-import br.com.acolher.api.dtos.UserUpdateDTO;
 import br.com.acolher.api.entities.GeneralDirector;
 import br.com.acolher.api.entities.Professional;
 import br.com.acolher.api.entities.Recepcionist;
 import br.com.acolher.api.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserMapper {
+
+    private static User setCommonFields(User user, UserCreateDTO userCreateDTO) {
+        user.setName(userCreateDTO.name());
+        user.setEmail(userCreateDTO.email());
+        user.setPassword(userCreateDTO.password());
+        user.setCpf(userCreateDTO.cpf());
+        user.setRg(userCreateDTO.rg());
+        user.setTelephone(userCreateDTO.telephone());
+        return user;
+    }
+
     public static User toEntity(UserCreateDTO userDTO) {
-        User user = null;
+        User user;
         switch (userDTO.userType()) {
-            case GENERAL_DIRECTOR -> {
-                GeneralDirector generalDirector = new GeneralDirector();
-                generalDirector.setName(userDTO.name());
-                generalDirector.setEmail(userDTO.email());
-                generalDirector.setPassword(userDTO.password());
-                generalDirector.setCpf(userDTO.cpf());
-                generalDirector.setRg(userDTO.rg());
-                generalDirector.setTelephone(userDTO.telephone());
-                user = generalDirector;
-            }
-            case RECEPCIONIST -> {
-                Recepcionist recepcionist = new Recepcionist();
-                recepcionist.setName(userDTO.name());
-                recepcionist.setEmail(userDTO.email());
-                recepcionist.setPassword(userDTO.password());
-                recepcionist.setCpf(userDTO.cpf());
-                recepcionist.setRg(userDTO.rg());
-                recepcionist.setTelephone(userDTO.telephone());
-                user = recepcionist;
-            }
+            case GENERAL_DIRECTOR -> user = setCommonFields(new GeneralDirector(), userDTO);
+            case RECEPCIONIST -> user = setCommonFields(new Recepcionist(), userDTO);
             case PROFESSIONAL -> {
-                Professional professional = new Professional();
-                professional.setName(userDTO.name());
-                professional.setEmail(userDTO.email());
-                professional.setPassword(userDTO.password());
-                professional.setCpf(userDTO.cpf());
-                professional.setRg(userDTO.rg());
-                professional.setTelephone(userDTO.telephone());
+                Professional professional = (Professional) setCommonFields(new Professional(), userDTO);
                 professional.setSpeciality(userDTO.speciality());
                 professional.setProfessionalRegister(userDTO.professionalRegister());
                 user = professional;
@@ -50,8 +38,7 @@ public class UserMapper {
     }
 
     public static UserResponseDTO toDTO(User user) {
-        if(user instanceof Professional) {
-            Professional professional = (Professional) user;
+        if(user instanceof Professional professional) {
             return new UserResponseDTO(professional.getId(), professional.getName(), professional.getEmail(), professional.getPassword(), professional.getCpf(), professional.getRg(), professional.getTelephone(), professional.getSpeciality(), professional.getProfessionalRegister(), professional.getUserType());
         }else
             return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getCpf(), user.getRg(), user.getTelephone(), null, null, user.getUserType());
