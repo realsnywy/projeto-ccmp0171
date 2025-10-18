@@ -7,6 +7,7 @@ import br.com.acolher.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,11 +18,13 @@ public class UserController {
     private UserService usuarioService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<UserResponseDTO> create(@RequestBody UserCreateDTO userCreateDTO) {
         return new ResponseEntity<>(usuarioService.create(userCreateDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<?> readAll() {
         try {
             return new ResponseEntity<>(usuarioService.readAll(), HttpStatus.OK);
@@ -32,6 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<?> readById(@PathVariable(value = "id") Long id) {
         try {
             return new ResponseEntity<>(usuarioService.read(id), HttpStatus.OK);
@@ -42,6 +46,7 @@ public class UserController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<?> update(@RequestBody UserUpdateDTO userUpdateDTO) {
         try {
             return new ResponseEntity<>(usuarioService.update(userUpdateDTO), HttpStatus.OK);
@@ -51,6 +56,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Long id) {
         try {
             usuarioService.delete(id);
