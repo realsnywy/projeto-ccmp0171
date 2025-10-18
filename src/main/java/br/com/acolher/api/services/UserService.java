@@ -8,6 +8,7 @@ import br.com.acolher.api.entities.User;
 import br.com.acolher.api.mappers.UserMapper;
 import br.com.acolher.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,14 @@ public class UserService {
     @Autowired
     private UserRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     public UserResponseDTO create(UserCreateDTO userCreateDTO) {
+        // vai fazer a criptografia da senha e dps setar ela
+        String encodedPassword = encoder.encode(userCreateDTO.password());
         User user = UserMapper.toEntity(userCreateDTO);
+        user.setPassword(encodedPassword);
         return UserMapper.toDTO(usuarioRepository.save(user));
     }
 
