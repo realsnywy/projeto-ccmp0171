@@ -42,7 +42,8 @@ public class UserService {
         User user = usuarioRepository.findById(userUpdateDTO.id()).orElseThrow(() -> new RuntimeException("Usuário com id " + userUpdateDTO.id() + " não encontrado para atualização."));
         user.setName(userUpdateDTO.name());
         user.setEmail(userUpdateDTO.email());
-        user.setPassword(userUpdateDTO.password());
+        String encodedPassword = encoder.encode(userUpdateDTO.password());
+        user.setPassword(encodedPassword);
         user.setCpf(userUpdateDTO.cpf());
         user.setRg(userUpdateDTO.rg());
         user.setTelephone(userUpdateDTO.telephone());
