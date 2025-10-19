@@ -37,12 +37,12 @@ public class PatientGuardianService {
 
     public PatientGuardianResponseDTO update(PatientGuardianUpdateDTO patientGuardianUpdateDTO) {
         PatientGuardian patientGuardian = patientGuardianRepository.findById(patientGuardianUpdateDTO.id()).orElseThrow(()->new RuntimeException("Responsável com id " + patientGuardianUpdateDTO.id() + " não encontrado para atualização"));
-        patientGuardian.setName(patientGuardianUpdateDTO.name());
-        patientGuardian.setCPF(patientGuardianUpdateDTO.cpf());
-        patientGuardian.setRG(patientGuardianUpdateDTO.rg());
+        patientGuardian.setRawName(patientGuardianUpdateDTO.name());
+        patientGuardian.setRawCpf(patientGuardianUpdateDTO.cpf());
+        patientGuardian.setRawRg(patientGuardianUpdateDTO.rg());
         patientGuardian.setRelationship(patientGuardianUpdateDTO.relationship());
-        patientGuardian.setTelephone(patientGuardianUpdateDTO.telephone());
-        patientGuardian.setEmail(patientGuardianUpdateDTO.email());
+        patientGuardian.setRawTelephone(patientGuardianUpdateDTO.telephone());
+        patientGuardian.setRawEmail(patientGuardianUpdateDTO.email());
         return  PatientGuardianMapper.toDTO(patientGuardianRepository.save(patientGuardian));
     }
 

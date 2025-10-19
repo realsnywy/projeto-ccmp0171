@@ -8,17 +8,18 @@ import br.com.acolher.api.entities.PatientGuardian;
 public class PatientGuardianMapper {
     public static PatientGuardian toEntity(PatientGuardianCreateDTO patientGuardianCreateDTO){
         PatientGuardian patientGuardian = new PatientGuardian();
-        patientGuardian.setName(patientGuardianCreateDTO.name());
-        patientGuardian.setCPF(patientGuardianCreateDTO.cpf());
-        patientGuardian.setRG(patientGuardianCreateDTO.rg());
-        patientGuardian.setTelephone(patientGuardianCreateDTO.telephone());
-        patientGuardian.setEmail(patientGuardianCreateDTO.email());
+        patientGuardian.setRawName(patientGuardianCreateDTO.name());
+        patientGuardian.setRawCpf(patientGuardianCreateDTO.cpf());
+        patientGuardian.setRawRg(patientGuardianCreateDTO.rg());
+        patientGuardian.setRawTelephone(patientGuardianCreateDTO.telephone());
+        patientGuardian.setRawEmail(patientGuardianCreateDTO.email());
+        patientGuardian.setRelationship(patientGuardianCreateDTO.relationship());
 
         return patientGuardian;
     }
 
     public static PatientGuardianResponseDTO toDTO(PatientGuardian patientGuardian){
-        return new PatientGuardianResponseDTO(patientGuardian.getId(), patientGuardian.getName(), patientGuardian.getCPF(), patientGuardian.getRG(), patientGuardian.getRelationship(), patientGuardian.getTelephone(), patientGuardian.getEmail());
+        return new PatientGuardianResponseDTO(patientGuardian.getId(), patientGuardian.getRawName(), patientGuardian.getRawCpf(), patientGuardian.getRawRg(), patientGuardian.getRelationship(), patientGuardian.getRawTelephone(), patientGuardian.getRawEmail());
     }
 
 }
