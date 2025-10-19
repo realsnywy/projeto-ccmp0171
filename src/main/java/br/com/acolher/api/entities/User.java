@@ -1,5 +1,6 @@
 package br.com.acolher.api.entities;
 
+import br.com.acolher.api.config.CryptoUtil;
 import br.com.acolher.api.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -41,6 +42,41 @@ public abstract class User implements UserDetails {
     private String rg;
 
     private String telephone;
+
+
+    // Esses abaixos n são persistidos no banco. são usados para criptografar
+    // e descriptografar durante requests
+    @Transient
+    private String rawCpf;
+    @Transient
+    private String rawRg;
+    @Transient
+    private String rawTelephone;
+
+
+    @PrePersist
+    public void prePersist() {
+        this.cpf = CryptoUtil.encrypt(rawCpf);
+        this.rg = CryptoUtil.encrypt(rawRg);
+        this.telephone = CryptoUtil.encrypt(rawTelephone);
+        prePersistChild();
+    }
+
+    // metodo criado só para pode criptografar campos de subclasses
+    // já que n tem como sobrescrever o de cima
+    protected void prePersistChild() {
+    }
+
+    @PostLoad
+    public void postLoad() {
+        this.rawCpf = CryptoUtil.decrypt(cpf);
+        this.rawRg = CryptoUtil.decrypt(rg);
+        this.rawTelephone = CryptoUtil.decrypt(telephone);
+        postLoadChild();
+    }
+
+    protected void postLoadChild() {
+    }
 
     public UserType getUserType() {
         if(this instanceof GeneralDirector) {

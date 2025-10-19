@@ -44,13 +44,13 @@ public class UserService {
         user.setEmail(userUpdateDTO.email());
         String encodedPassword = encoder.encode(userUpdateDTO.password());
         user.setPassword(encodedPassword);
-        user.setCpf(userUpdateDTO.cpf());
-        user.setRg(userUpdateDTO.rg());
-        user.setTelephone(userUpdateDTO.telephone());
+        user.setRawCpf(userUpdateDTO.cpf());
+        user.setRawRg(userUpdateDTO.rg());
+        user.setRawTelephone(userUpdateDTO.telephone());
 
         if (user instanceof Professional professional) {
             professional.setSpeciality(userUpdateDTO.speciality());
-            professional.setProfessionalRegister(userUpdateDTO.professionalRegister());
+            professional.setRawProfessionalRegister(userUpdateDTO.professionalRegister());
         }
 
         return UserMapper.toDTO(usuarioRepository.save(user));

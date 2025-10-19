@@ -6,8 +6,7 @@ import br.com.acolher.api.entities.GeneralDirector;
 import br.com.acolher.api.entities.Professional;
 import br.com.acolher.api.entities.Recepcionist;
 import br.com.acolher.api.entities.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 public class UserMapper {
 
@@ -15,9 +14,9 @@ public class UserMapper {
         user.setName(userCreateDTO.name());
         user.setEmail(userCreateDTO.email());
         user.setPassword(userCreateDTO.password());
-        user.setCpf(userCreateDTO.cpf());
-        user.setRg(userCreateDTO.rg());
-        user.setTelephone(userCreateDTO.telephone());
+        user.setRawCpf(userCreateDTO.cpf());
+        user.setRawRg(userCreateDTO.rg());
+        user.setRawTelephone(userCreateDTO.telephone());
         return user;
     }
 
@@ -29,7 +28,7 @@ public class UserMapper {
             case PROFESSIONAL -> {
                 Professional professional = (Professional) setCommonFields(new Professional(), userDTO);
                 professional.setSpeciality(userDTO.speciality());
-                professional.setProfessionalRegister(userDTO.professionalRegister());
+                professional.setRawProfessionalRegister(userDTO.professionalRegister());
                 user = professional;
             }
             default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + userDTO.userType());
@@ -39,8 +38,8 @@ public class UserMapper {
 
     public static UserResponseDTO toDTO(User user) {
         if(user instanceof Professional professional) {
-            return new UserResponseDTO(professional.getId(), professional.getName(), professional.getEmail(), professional.getPassword(), professional.getCpf(), professional.getRg(), professional.getTelephone(), professional.getSpeciality(), professional.getProfessionalRegister(), professional.getUserType());
+            return new UserResponseDTO(professional.getId(), professional.getName(), professional.getEmail(), professional.getPassword(), professional.getRawCpf(), professional.getRawRg(), professional.getRawTelephone(), professional.getSpeciality(), professional.getRawProfessionalRegister(), professional.getUserType());
         }else
-            return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getCpf(), user.getRg(), user.getTelephone(), null, null, user.getUserType());
+            return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRawCpf(), user.getRawRg(), user.getRawTelephone(), null, null, user.getUserType());
     }
 }
