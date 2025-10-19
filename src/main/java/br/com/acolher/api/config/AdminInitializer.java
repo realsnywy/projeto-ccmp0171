@@ -26,9 +26,9 @@ public class AdminInitializer {
             admin.setName("Administrador");
             admin.setEmail(adminEmail);
             admin.setPassword(passwordEncoder.encode("123456"));
-            admin.setCpf("00000000000");
-            admin.setRg("0000000");
-            admin.setTelephone("000000000");
+            admin.setRawCpf("00000000000");
+            admin.setRawRg("0000000");
+            admin.setRawTelephone("000000000");
 
             userRepository.save(admin);
             System.out.println("Usuário admin (GeneralDirector) criado com sucesso: " + adminEmail);
