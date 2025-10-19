@@ -1,5 +1,6 @@
 package br.com.acolher.api.entities;
 
+import br.com.acolher.api.config.CryptoUtil;
 import br.com.acolher.api.enums.PatientStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,17 @@ public class Patient {
 
     private String email;
 
+    @Transient
+    private String rawName;
+    @Transient
+    private String rawCpf;
+    @Transient
+    private String rawRg;
+    @Transient
+    private String rawEmail;
+    @Transient
+    private String rawTelephone;
+
     @Enumerated(EnumType.STRING)
     private PatientStatus status;
 
@@ -43,4 +55,22 @@ public class Patient {
     @ManyToOne
     @JoinColumn(name = "guardian_id", nullable = true)
     private PatientGuardian guardian;
+
+    @PrePersist
+    public void prePersist() {
+        this.name = CryptoUtil.encrypt(rawName);
+        this.cpf = CryptoUtil.encrypt(rawCpf);
+        this.rg = CryptoUtil.encrypt(rawRg);
+        this.telephone = CryptoUtil.encrypt(rawTelephone);
+        this.email = CryptoUtil.encrypt(rawEmail);
+    }
+
+    @PostLoad
+    public void postLoad() {
+        this.rawName = CryptoUtil.decrypt(name);
+        this.rawCpf = CryptoUtil.decrypt(cpf);
+        this.rawRg = CryptoUtil.decrypt(rg);
+        this.rawEmail = CryptoUtil.decrypt(email);
+        this.rawTelephone = CryptoUtil.decrypt(telephone);
+    }
 }

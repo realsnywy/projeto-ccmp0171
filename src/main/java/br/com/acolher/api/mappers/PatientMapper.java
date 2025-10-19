@@ -10,13 +10,13 @@ public class PatientMapper {
 
     public static Patient toEntity(PatientCreateDTO dto, PatientGuardian guardian) {
         Patient patient = new Patient();
-        patient.setName(dto.name());
+        patient.setRawName(dto.name());
         patient.setSex(dto.sex());
         patient.setBirthDate(dto.birthDate());
-        patient.setRg(dto.rg());
-        patient.setCpf(dto.cpf());
-        patient.setEmail(dto.email());
-        patient.setTelephone(dto.telephone());
+        patient.setRawRg(dto.rg());
+        patient.setRawCpf(dto.cpf());
+        patient.setRawEmail(dto.email());
+        patient.setRawTelephone(dto.telephone());
         patient.setStatus(PatientStatus.ACTIVE);
         patient.setDependent(dto.isDependent());
         patient.setGuardian(guardian);
@@ -28,6 +28,6 @@ public class PatientMapper {
         if (patient.getGuardian() != null) {
             guardianId = patient.getGuardian().getId();
         }
-        return new PatientResponseDTO(patient.getId(), patient.getName(), patient.getSex(), patient.getBirthDate(), patient.getCpf(), patient.getRg(), patient.getTelephone(), patient.getEmail(), patient.getStatus(), patient.isDependent(), guardianId);
+        return new PatientResponseDTO(patient.getId(), patient.getRawName(), patient.getSex(), patient.getBirthDate(), patient.getRawCpf(), patient.getRawRg(), patient.getRawTelephone(), patient.getRawEmail(), patient.getStatus(), patient.isDependent(), guardianId);
     }
 }

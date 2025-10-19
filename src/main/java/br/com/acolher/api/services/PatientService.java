@@ -43,13 +43,13 @@ public class PatientService {
         PatientGuardian guardian = null;
         if(dto.guardianId() != null)
             guardian = guardianRepository.findById(dto.guardianId()).orElseThrow(()->new RuntimeException("Responsável com id " +  dto.guardianId() + " não encontrado para atualizar o paciente"));
-        patient.setName(dto.name());
+        patient.setRawName(dto.name());
         patient.setSex(dto.sex());
         patient.setBirthDate(dto.birthDate());
-        patient.setRg(dto.rg());
-        patient.setCpf(dto.cpf());
-        patient.setEmail(dto.email());
-        patient.setTelephone(dto.telephone());
+        patient.setRawRg(dto.rg());
+        patient.setRawCpf(dto.cpf());
+        patient.setRawEmail(dto.email());
+        patient.setRawTelephone(dto.telephone());
         patient.setStatus(PatientStatus.ACTIVE);
         patient.setDependent(dto.isDependent());
         patient.setGuardian(guardian);
