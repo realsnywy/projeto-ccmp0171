@@ -6,6 +6,7 @@ import br.com.acolher.api.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,11 +15,13 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody PatientCreateDTO patientCreateDTO) {
         return new ResponseEntity<>(patientService.create(patientCreateDTO), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     @GetMapping
     public ResponseEntity<?> readAll() {
         try{
@@ -28,6 +31,7 @@ public class PatientController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     @GetMapping("/{id}")
     public ResponseEntity<?> readById(@PathVariable Long id) {
         try {
@@ -37,6 +41,7 @@ public class PatientController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody PatientUpdateDTO patientUpdateDTO) {
         try {
@@ -46,6 +51,7 @@ public class PatientController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try {
