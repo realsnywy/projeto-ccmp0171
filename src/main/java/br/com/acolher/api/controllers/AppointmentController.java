@@ -65,8 +65,15 @@ public class AppointmentController {
         }
     }
 
-    @GetMapping("/patients/by-professional/{professionalIdId}")
-    public ResponseEntity<List<PatientResponseDTO>> readPatientsByProfessionalId(@PathVariable Long professionalIdId) {
-        return new ResponseEntity<>(appointmentService.findPatientsByProfessionalId(professionalIdId), HttpStatus.OK);
+    @PreAuthorize("hasRole('PROFESSIONAL')")
+    @GetMapping("/patients/by-professional/{professionalId}")
+    public ResponseEntity<List<PatientResponseDTO>> readPatientsByProfessionalId(@PathVariable Long professionalId) {
+        return new ResponseEntity<>(appointmentService.findPatientsByProfessionalId(professionalId), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('PROFESSIONAL')")
+    @GetMapping("/by/professional/{professionalId}/patient/{patientId}")
+    public ResponseEntity<List<AppointmentResponseDTO>> readPatientsByProfessionalIdAndPatientId(@PathVariable Long professionalId, @PathVariable Long patientId) {
+        return new ResponseEntity<>(appointmentService.findAllAppointmentsByProfessionalIdAndPatientId(professionalId, patientId), HttpStatus.OK);
     }
 }

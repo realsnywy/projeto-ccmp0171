@@ -79,7 +79,12 @@ public class AppointmentService {
         appointmentRepository.delete(appointment);
     }
 
+    // vai buscar e retornar todos os pacientes de um profissional
     public List<PatientResponseDTO> findPatientsByProfessionalId(Long professionalId) {
         return appointmentRepository.findDistinctPatientsByProfessionalId(professionalId).stream().map(PatientMapper::toDTO).toList();
+    }
+
+    public List<AppointmentResponseDTO> findAllAppointmentsByProfessionalIdAndPatientId(Long professionalId, Long patientId) {
+        return appointmentRepository.findByProfessionalIdAndPatientId(professionalId, patientId).stream().map(AppointmentMapper::toDTO).toList();
     }
 }

@@ -13,4 +13,7 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     @Query("SELECT DISTINCT a.patient FROM Appointment a WHERE a.professional.id = :professionalId")
     List<Patient> findDistinctPatientsByProfessionalId(@Param("professionalId") Long professionalId);
+
+    List<Appointment> findByProfessionalIdAndPatientId(Long professionalId, Long patientId);
+
 }
