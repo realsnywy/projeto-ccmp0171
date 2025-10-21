@@ -10,7 +10,6 @@ public record PatientRecordUpdateDTO(
         String appointmentSummary,
         @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
         LocalDateTime recordDate,
-        MultipartFile file,
-        String fileType
+        MultipartFile file
 ) {
 }

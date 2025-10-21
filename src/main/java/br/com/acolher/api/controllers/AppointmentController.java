@@ -20,20 +20,22 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
+    @PreAuthorize("hasRole('RECEPCIONIST')")
     public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentCreateDTO appointmentDTO) {
         AppointmentResponseDTO response = appointmentService.create(appointmentDTO);
         return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
+    @PreAuthorize("hasRole('RECEPCIONIST')")
     public ResponseEntity<List<AppointmentResponseDTO>> readAll() {
         List<AppointmentResponseDTO> response = appointmentService.readAll();
         return new  ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('RECEPCIONIST')")
     public ResponseEntity<AppointmentResponseDTO> read(@PathVariable Long id) {
         try{
             AppointmentResponseDTO response = appointmentService.read(id);
@@ -44,7 +46,7 @@ public class AppointmentController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
+    @PreAuthorize("hasRole('RECEPCIONIST')")
     public ResponseEntity<AppointmentResponseDTO> update(@RequestBody AppointmentUpdateDTO appointmentUpdateDTO) {
         try {
             AppointmentResponseDTO response = appointmentService.update(appointmentUpdateDTO);
@@ -55,7 +57,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
+    @PreAuthorize("hasRole('RECEPCIONIST')")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try{
             appointmentService.delete(id);
@@ -64,6 +66,8 @@ public class AppointmentController {
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    // ======================até aqui era o agendamento/cancelamento/ reagendamento de consulta=====================
 
     @PreAuthorize("hasRole('PROFESSIONAL')")
     @GetMapping("/patients/by-professional/{professionalId}")
