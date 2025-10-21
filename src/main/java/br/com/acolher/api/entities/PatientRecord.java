@@ -21,7 +21,7 @@ public class PatientRecord {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "appointment_id")
+    @JoinColumn(name = "appointment_id", unique = true)
     private Appointment appointment;
 
     private String appointmentSummary;

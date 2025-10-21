@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class PatientRecordController {
     @Autowired
     private PatientRecordService service;
 
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<PatientRecordResponseDTO> create(@ModelAttribute PatientRecordCreateDTO patientRecordCreateDTO) {
         try{
@@ -29,12 +31,14 @@ public class PatientRecordController {
     }
 
     // pega só os dados da consulta sem o arquivo
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @GetMapping
     public ResponseEntity<List<PatientRecordResponseDTO>> readAll() {
         return new ResponseEntity<>(service.readAll(), HttpStatus.OK);
     }
 
     // pega só os dados da consultas sem os arquivos
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @GetMapping("/{id}")
     public ResponseEntity<PatientRecordResponseDTO> read(@PathVariable Long id) {
         try{
@@ -45,6 +49,7 @@ public class PatientRecordController {
     }
 
     // vai enviar o arquivo para o front
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @GetMapping("/{id}/file")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
         byte[] fileData = service.getFile(id);
@@ -61,6 +66,7 @@ public class PatientRecordController {
                 .body(fileData);
     }
 
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @PutMapping(consumes = "multipart/form-data")
     public ResponseEntity<PatientRecordResponseDTO> update(@ModelAttribute PatientRecordUpdateDTO patientRecordUpdateDTO) {
         try{
@@ -70,11 +76,24 @@ public class PatientRecordController {
         }
     }
 
+    @PreAuthorize("hasRole('PROFESSIONAL')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try {
+            service.delete(id);
             return new ResponseEntity<>("Prontuário deletado com sucesso!", HttpStatus.OK);
         } catch (RuntimeException ex){
+            return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //vai retornar o prontuario de acordo com id da consulta
+    @PreAuthorize("hasRole('PROFESSIONAL')")
+    @GetMapping("/by-appointment/{appointmentId}")
+    public ResponseEntity<PatientRecordResponseDTO> readByAppointmentId(@PathVariable Long appointmentId) {
+        try{
+            return new ResponseEntity<>(service.findPatientRecordsByAppointmentId(appointmentId), HttpStatus.OK);
+        }catch (RuntimeException ex){
             return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

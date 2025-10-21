@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PatientRecordService {
@@ -88,9 +89,17 @@ public class PatientRecordService {
         return file;
     }
 
+    //metodo auxiliar só para mudar dinamicamente o tipo de arquivo q vai ser enviado
     public String getFileType(Long id) {
         PatientRecord pr = patientRecordRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prontuário não encontrado"));
         return pr.getFileType();
+    }
+
+    // vai procurar se existe algum prontuário de uma consulta
+    public PatientRecordResponseDTO findPatientRecordsByAppointmentId(Long appointmentId) {
+        PatientRecord patientRecord = patientRecordRepository.findByAppointmentId(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Prontuário não encontrado para a consulta id: " + appointmentId));
+        return PatientRecordMapper.toDTO(patientRecord);
     }
 }
