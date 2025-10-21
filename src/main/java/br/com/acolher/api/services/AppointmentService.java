@@ -3,10 +3,12 @@ package br.com.acolher.api.services;
 import br.com.acolher.api.dtos.AppointmentCreateDTO;
 import br.com.acolher.api.dtos.AppointmentResponseDTO;
 import br.com.acolher.api.dtos.AppointmentUpdateDTO;
+import br.com.acolher.api.dtos.PatientResponseDTO;
 import br.com.acolher.api.entities.Appointment;
 import br.com.acolher.api.entities.Patient;
 import br.com.acolher.api.entities.Professional;
 import br.com.acolher.api.mappers.AppointmentMapper;
+import br.com.acolher.api.mappers.PatientMapper;
 import br.com.acolher.api.repositories.AppointmentRepository;
 import br.com.acolher.api.repositories.PatientRepository;
 import br.com.acolher.api.repositories.UserRepository;
@@ -75,5 +77,9 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Consulta com id " + id + " não encontrada para deleção"));
         appointmentRepository.delete(appointment);
+    }
+
+    public List<PatientResponseDTO> findPatientsByProfessionalId(Long professionalId) {
+        return appointmentRepository.findDistinctPatientsByProfessionalId(professionalId).stream().map(PatientMapper::toDTO).toList();
     }
 }

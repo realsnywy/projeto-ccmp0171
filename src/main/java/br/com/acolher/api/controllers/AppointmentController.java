@@ -3,6 +3,7 @@ package br.com.acolher.api.controllers;
 import br.com.acolher.api.dtos.AppointmentCreateDTO;
 import br.com.acolher.api.dtos.AppointmentResponseDTO;
 import br.com.acolher.api.dtos.AppointmentUpdateDTO;
+import br.com.acolher.api.dtos.PatientResponseDTO;
 import br.com.acolher.api.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,5 +63,10 @@ public class AppointmentController {
         } catch (RuntimeException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/patients/by-professional/{professionalIdId}")
+    public ResponseEntity<List<PatientResponseDTO>> readPatientsByProfessionalId(@PathVariable Long professionalIdId) {
+        return new ResponseEntity<>(appointmentService.findPatientsByProfessionalId(professionalIdId), HttpStatus.OK);
     }
 }
