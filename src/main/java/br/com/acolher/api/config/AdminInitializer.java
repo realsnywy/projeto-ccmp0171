@@ -4,6 +4,7 @@ import br.com.acolher.api.entities.GeneralDirector;
 import br.com.acolher.api.repositories.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,9 +16,14 @@ public class AdminInitializer {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${admin_email}")
+    private String adminEmail;
+
+    @Value("${admin_password}")
+    private String adminPassword;
     @PostConstruct
     public void init() {
-        String adminEmail = "admin@acolher.com";
+
 
         boolean exists = userRepository.findByEmail(adminEmail).isPresent();
 
@@ -25,15 +31,15 @@ public class AdminInitializer {
             GeneralDirector admin = new GeneralDirector();
             admin.setName("Administrador");
             admin.setEmail(adminEmail);
-            admin.setPassword(passwordEncoder.encode("123456"));
+            admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRawCpf("00000000000");
             admin.setRawRg("0000000");
             admin.setRawTelephone("000000000");
 
             userRepository.save(admin);
-            System.out.println("Usuário admin (GeneralDirector) criado com sucesso: " + adminEmail);
+            System.out.println("Usuário admin (GeneralDirector) criado com sucesso.");
         } else {
-            System.out.println("Usuário admin já existe: " + adminEmail);
+            System.out.println("Usuário admin já existe.");
         }
     }
 }

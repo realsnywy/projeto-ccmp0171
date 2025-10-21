@@ -125,9 +125,12 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>11.7.2</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/acolher</url>
-                    <user>root</user>
-                    <password>1234</password>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <url>${env.DB_URL}</url>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <user>${env.DB_USER}</user>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <password>${env.DB_PASS}</password>
                     <cleanDisabled>false</cleanDisabled>
                 </configuration>
             </plugin>
