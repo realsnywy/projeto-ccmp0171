@@ -17,10 +17,11 @@ public class AppointmentMapper {
         appointment.setProfessional(professional);
         appointment.setIssueDate(LocalDateTime.now());
         appointment.setAppointmentDate(appointmentCreateDTO.appointmentDate());
+        appointment.setAmount(appointmentCreateDTO.amount());
         return appointment;
     }
 
     public static AppointmentResponseDTO toDTO(Appointment appointment) {
-        return new AppointmentResponseDTO(appointment.getId(), appointment.getIssueDate(), appointment.getAppointmentDate(), appointment.getPatient().getId(), appointment.getProfessional().getId());
+        return new AppointmentResponseDTO(appointment.getId(),appointment.getPatient().getId(), appointment.getProfessional().getId(), appointment.getAppointmentDate(),appointment.getIssueDate(), appointment.getAmount());
     }
 }
