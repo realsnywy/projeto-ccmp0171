@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private UserService usuarioService;
+    private UserService userService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<UserResponseDTO> create(@RequestBody UserCreateDTO userCreateDTO) {
-        return new ResponseEntity<>(usuarioService.create(userCreateDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.create(userCreateDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<?> readAll() {
         try {
-            return new ResponseEntity<>(usuarioService.readAll(), HttpStatus.OK);
+            return new ResponseEntity<>(userService.readAll(), HttpStatus.OK);
         }catch (RuntimeException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -38,7 +38,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<?> readById(@PathVariable(value = "id") Long id) {
         try {
-            return new ResponseEntity<>(usuarioService.read(id), HttpStatus.OK);
+            return new ResponseEntity<>(userService.read(id), HttpStatus.OK);
         }catch (RuntimeException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -49,7 +49,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<?> update(@RequestBody UserUpdateDTO userUpdateDTO) {
         try {
-            return new ResponseEntity<>(usuarioService.update(userUpdateDTO), HttpStatus.OK);
+            return new ResponseEntity<>(userService.update(userUpdateDTO), HttpStatus.OK);
         }catch (RuntimeException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -59,7 +59,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Long id) {
         try {
-            usuarioService.delete(id);
+            userService.delete(id);
             return new ResponseEntity<>("Usuário deletado com sucesso",HttpStatus.OK);
         } catch (RuntimeException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
