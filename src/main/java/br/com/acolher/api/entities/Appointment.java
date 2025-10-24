@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,6 +23,7 @@ public class Appointment {
 
     private LocalDateTime issueDate;
     private LocalDateTime appointmentDate;
+    private BigDecimal amount;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")

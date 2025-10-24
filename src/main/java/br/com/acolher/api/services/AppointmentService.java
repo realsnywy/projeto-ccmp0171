@@ -70,6 +70,7 @@ public class AppointmentService {
         appointment.setProfessional(professional);
         appointment.setIssueDate(LocalDateTime.now());
         appointment.setAppointmentDate(appointmentUpdateDTO.appointmentDate());
+        appointment.setAmount(appointmentUpdateDTO.amount());
         return AppointmentMapper.toDTO(appointmentRepository.save(appointment));
     }
 
