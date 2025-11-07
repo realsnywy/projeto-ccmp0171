@@ -1,9 +1,7 @@
 package br.com.acolher.api.services;
 
-import br.com.acolher.api.dtos.PaymentCreateDTO;
 import br.com.acolher.api.dtos.PaymentResponseDTO;
 import br.com.acolher.api.dtos.PaymentUpdateDTO;
-import br.com.acolher.api.entities.Appointment;
 import br.com.acolher.api.entities.Payment;
 import br.com.acolher.api.mappers.PaymentMapper;
 import br.com.acolher.api.repositories.AppointmentRepository;
@@ -19,13 +17,6 @@ public class PaymenteService {
     private PaymentRepository paymentRepository;
     @Autowired
     private AppointmentRepository appointmentRepository;
-
-    public PaymentResponseDTO create(PaymentCreateDTO dto){
-        Appointment appointment = appointmentRepository.findById(dto.appointmentId())
-                .orElseThrow(() -> new RuntimeException("Consulta com id " + dto.appointmentId() + " não encontrada"));
-        Payment payment = PaymentMapper.toEntity(dto, appointment);
-        return PaymentMapper.toDTO(paymentRepository.save(payment));
-    }
 
     public List<PaymentResponseDTO> readAll(){
         return paymentRepository.findAll().stream()
@@ -45,6 +36,7 @@ public class PaymenteService {
         payment.setStatus(dto.status());
         payment.setMethod(dto.method());
         payment.setPaymentDate(dto.paymentDate());
+        payment.setAmount(dto.amount());
         paymentRepository.save(payment);
         return PaymentMapper.toDTO(payment);
     }

@@ -1,12 +1,10 @@
 package br.com.acolher.api.controllers;
 
-import br.com.acolher.api.dtos.PaymentCreateDTO;
 import br.com.acolher.api.dtos.PaymentResponseDTO;
 import br.com.acolher.api.dtos.PaymentUpdateDTO;
 import br.com.acolher.api.services.PaymenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +15,6 @@ import java.util.List;
 public class PaymentController {
     @Autowired
     private PaymenteService paymentService;
-
-    @PostMapping
-    public ResponseEntity<PaymentResponseDTO> create(@RequestBody PaymentCreateDTO dto){
-        try{
-            return new ResponseEntity<>(paymentService.create(dto), HttpStatus.CREATED);
-        }catch (RuntimeException e){
-            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentResponseDTO> read(@PathVariable Long id){

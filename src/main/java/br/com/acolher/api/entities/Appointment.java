@@ -32,4 +32,7 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "professional_id")
     private Professional professional;
+
+    @OneToOne(mappedBy = "appointment")
+    private Payment payment;
 }

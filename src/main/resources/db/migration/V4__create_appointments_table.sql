@@ -5,5 +5,4 @@ CREATE TABLE appointments(
     appointment_date DATETIME,
     issue_date DATETIME,
     amount DECIMAL(10,2)
-
 )

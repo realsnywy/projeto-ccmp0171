@@ -6,11 +6,15 @@ import br.com.acolher.api.dtos.AppointmentUpdateDTO;
 import br.com.acolher.api.dtos.PatientResponseDTO;
 import br.com.acolher.api.entities.Appointment;
 import br.com.acolher.api.entities.Patient;
+import br.com.acolher.api.entities.Payment;
 import br.com.acolher.api.entities.Professional;
+import br.com.acolher.api.enums.PaymentStatus;
 import br.com.acolher.api.mappers.AppointmentMapper;
 import br.com.acolher.api.mappers.PatientMapper;
+import br.com.acolher.api.mappers.PaymentMapper;
 import br.com.acolher.api.repositories.AppointmentRepository;
 import br.com.acolher.api.repositories.PatientRepository;
+import br.com.acolher.api.repositories.PaymentRepository;
 import br.com.acolher.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,8 @@ public class AppointmentService {
     private UserRepository userRepository;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public AppointmentResponseDTO create(AppointmentCreateDTO appointmentCreateDTO) {
         Patient patient = null;
@@ -40,7 +46,16 @@ public class AppointmentService {
                     .orElseThrow(()-> new RuntimeException("Profisional com id " + appointmentCreateDTO.patientId() + " não encontrado"));
         }
         Appointment appointment = AppointmentMapper.toEntity(appointmentCreateDTO, patient, professional);
-        return AppointmentMapper.toDTO(appointmentRepository.save(appointment));
+        appointment = appointmentRepository.save(appointment);
+
+        Payment payment = new Payment();
+        payment.setAppointment(appointment);
+        payment.setStatus(PaymentStatus.PENDING);
+        payment.setMethod(null);
+        payment.setPaymentDate(null);
+        payment.setAmount(appointment.getAmount());
+        paymentRepository.save(payment);
+        return AppointmentMapper.toDTO(appointment);
     }
 
     public AppointmentResponseDTO read(Long id) {
