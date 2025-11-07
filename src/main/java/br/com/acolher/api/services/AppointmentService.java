@@ -1,5 +1,6 @@
 package br.com.acolher.api.services;
 
+import br.com.acolher.api.config.EmailSenderService;
 import br.com.acolher.api.dtos.AppointmentCreateDTO;
 import br.com.acolher.api.dtos.AppointmentResponseDTO;
 import br.com.acolher.api.dtos.AppointmentUpdateDTO;
@@ -33,6 +34,8 @@ public class AppointmentService {
     private PatientRepository patientRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private EmailSenderService  emailSenderService;
 
     public AppointmentResponseDTO create(AppointmentCreateDTO appointmentCreateDTO) {
         Patient patient = null;
@@ -55,6 +58,15 @@ public class AppointmentService {
         payment.setPaymentDate(null);
         payment.setAmount(appointment.getAmount());
         paymentRepository.save(payment);
+
+        //enviado o email de consulta
+        if (patient != null && patient.getRawEmail() != null) {
+            emailSenderService.sendEmail(
+                    patient.getRawEmail(),
+                    "Consulta marcada!",
+                    "Sua consulta foi agendada para: " + appointment.getAppointmentDate()
+            );
+        }
         return AppointmentMapper.toDTO(appointment);
     }
 

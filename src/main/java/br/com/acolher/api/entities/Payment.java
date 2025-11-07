@@ -37,7 +37,7 @@ public class Payment {
     private PaymentMethod method;
 
     @Column(name = "payment_date")
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDate;
 
     @OneToOne
     @JoinColumn(name = "appointment_id", nullable = false, unique = true)
