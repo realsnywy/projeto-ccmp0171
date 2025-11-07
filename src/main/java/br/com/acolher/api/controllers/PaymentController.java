@@ -2,6 +2,7 @@ package br.com.acolher.api.controllers;
 
 import br.com.acolher.api.dtos.PaymentResponseDTO;
 import br.com.acolher.api.dtos.PaymentUpdateDTO;
+import br.com.acolher.api.dtos.UpdatePaymentMethodDTO;
 import br.com.acolher.api.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,4 +52,22 @@ public class PaymentController {
         }
     }
 
+    @PatchMapping("/{id}/method")
+    public ResponseEntity<PaymentResponseDTO> updateMethod(@PathVariable Long id, @RequestBody UpdatePaymentMethodDTO dto) {
+        try {
+            return new ResponseEntity<>(paymentService.updatePaymentMethod(id, dto.paymentMethod()), HttpStatus.OK);
+        }catch (RuntimeException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @PatchMapping("/{id}/pay")
+    public ResponseEntity<PaymentResponseDTO> pay(@PathVariable Long id){
+        try{
+            return new ResponseEntity<>(paymentService.pay(id), HttpStatus.OK);
+        }catch (RuntimeException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }
