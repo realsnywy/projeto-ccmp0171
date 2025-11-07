@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PaymenteService {
+public class PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
     @Autowired

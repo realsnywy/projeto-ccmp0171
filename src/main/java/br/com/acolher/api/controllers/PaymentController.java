@@ -2,7 +2,7 @@ package br.com.acolher.api.controllers;
 
 import br.com.acolher.api.dtos.PaymentResponseDTO;
 import br.com.acolher.api.dtos.PaymentUpdateDTO;
-import br.com.acolher.api.services.PaymenteService;
+import br.com.acolher.api.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/payments")
 public class PaymentController {
     @Autowired
-    private PaymenteService paymentService;
+    private PaymentService paymentService;
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentResponseDTO> read(@PathVariable Long id){
