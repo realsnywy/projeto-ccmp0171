@@ -26,7 +26,7 @@ public class PaymentAlertScheduler {
         LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
 
         List<Payment> oldPendingPayments = paymentRepository
-                .findByStatusAndPaymentDateBefore(PaymentStatus.PENDING, oneMonthAgo);
+                .findByStatusAndAppointment_AppointmentDateBefore(PaymentStatus.PENDING, oneMonthAgo);
 
         for (Payment payment : oldPendingPayments) {
 

@@ -8,5 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
-    List<Payment> findByStatusAndPaymentDateBefore(PaymentStatus paymentStatus, LocalDateTime oneMonthAgo);
+
+    List<Payment> findByStatusAndAppointment_AppointmentDateBefore(PaymentStatus status, LocalDateTime date);
 }
