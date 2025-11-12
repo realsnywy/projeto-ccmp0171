@@ -5,6 +5,7 @@ import br.com.acolher.api.dtos.UserResponseDTO;
 import br.com.acolher.api.dtos.UserUpdateDTO;
 import br.com.acolher.api.entities.Professional;
 import br.com.acolher.api.entities.User;
+import br.com.acolher.api.enums.UserType;
 import br.com.acolher.api.mappers.UserMapper;
 import br.com.acolher.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import java.util.List;
 
 @Service
 public class UserService {
-
     @Autowired
     private UserRepository usuarioRepository;
 
@@ -59,5 +59,9 @@ public class UserService {
     public void delete(Long id) {
         User user = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário com id + " + id + " não econtrado para deleção."));
         usuarioRepository.delete(user);
+    }
+
+    public List<UserResponseDTO> getAllProfessionals(){
+        return usuarioRepository.findAllProfessionals().stream().map(UserMapper::toDTO).toList();
     }
 }
