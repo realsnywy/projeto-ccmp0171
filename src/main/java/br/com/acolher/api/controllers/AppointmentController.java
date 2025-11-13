@@ -20,14 +20,14 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @PostMapping
-    @PreAuthorize("hasRole('RECEPCIONIST')")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentCreateDTO appointmentDTO) {
         AppointmentResponseDTO response = appointmentService.create(appointmentDTO);
         return new  ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('RECEPCIONIST')")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<List<AppointmentResponseDTO>> readAll() {
         List<AppointmentResponseDTO> response = appointmentService.readAll();
         return new  ResponseEntity<>(response, HttpStatus.OK);
@@ -35,7 +35,7 @@ public class AppointmentController {
 
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('RECEPCIONIST')")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<AppointmentResponseDTO> read(@PathVariable Long id) {
         try{
             AppointmentResponseDTO response = appointmentService.read(id);
@@ -46,7 +46,7 @@ public class AppointmentController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('RECEPCIONIST')")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<AppointmentResponseDTO> update(@RequestBody AppointmentUpdateDTO appointmentUpdateDTO) {
         try {
             AppointmentResponseDTO response = appointmentService.update(appointmentUpdateDTO);
@@ -57,7 +57,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('RECEPCIONIST')")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         try{
             appointmentService.delete(id);
@@ -69,13 +69,13 @@ public class AppointmentController {
 
     // ======================até aqui era o agendamento/cancelamento/ reagendamento de consulta=====================
 
-    @PreAuthorize("hasRole('PROFESSIONAL')")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     @GetMapping("/patients/by-professional/{professionalId}")
     public ResponseEntity<List<PatientResponseDTO>> readPatientsByProfessionalId(@PathVariable Long professionalId) {
         return new ResponseEntity<>(appointmentService.findPatientsByProfessionalId(professionalId), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('PROFESSIONAL')")
+    @PreAuthorize("hasAnyRole('GENERAL_DIRECTOR', 'RECEPCIONIST')")
     @GetMapping("/by/professional/{professionalId}/patient/{patientId}")
     public ResponseEntity<List<AppointmentResponseDTO>> readPatientsByProfessionalIdAndPatientId(@PathVariable Long professionalId, @PathVariable Long patientId) {
         return new ResponseEntity<>(appointmentService.findAllAppointmentsByProfessionalIdAndPatientId(professionalId, patientId), HttpStatus.OK);
